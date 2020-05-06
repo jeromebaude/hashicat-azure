@@ -105,7 +105,7 @@ Add environment variable to be able to destroy
 
 Destroy current deployment from TFE Web UI. 
 
-### 2.3 Sentinel
+### 2.3 Sentinel (can be done with Cost Estimation)
 
 Sentinel intercepts bad configurations before they go to production, not after.
 
@@ -125,11 +125,28 @@ Change the variable and set it to `Standard_A1`. It should now work
 
 (disable the sentinel rule)
 
-### 2.4 GitOps thru VCS integration
+### 2.4 Cost Estimation
+
+Terraform Cloud provides cost estimates for many resources found in your Terraform configuration. For each resource an hourly and monthly cost is shown, along with the monthly delta. The total cost and delta of all estimable resources is also shown.
+
+To enable Cost Estimation for your organization, check the box in your organization's settings.
+
+Disable `auto-apply` and add a new variable
+
+Add the following variable
+```
+instance_type: m5.large
+```
+Discard Run "too expensive"
+
+
+### 2.5 GitOps thru VCS integration
 
 Version control systems allow users to store, track, test, and collaborate on changes to their infrastructure and applications.
 
 Let's upgrade our workspace to use our Github repository https://github.com/jeromebaude/hashicat-aws.git
+
+(We can start straight by creating a DevTestBranch branch in Github GUI and commit from Github)
 
     Settings > Version Control > Select 1st Github > jeromebaude/hashicat-aws
     
@@ -151,7 +168,7 @@ Merge the change into the main branch
 
 (Change the VCS config to the master branch and destroy everything)
 
-### 2.5 RBAC
+### 2.6 RBAC
 
 Terraform Cloud's organizational and access control model is based on three units: users, teams, and organizations.
 https://www.terraform.io/docs/cloud/users-teams-organizations/index.html
@@ -171,20 +188,6 @@ Go to workspace `terraform-aws-hashicat` Settings > Team Access > Add a Team and
 Back to chrome incognito (login as jeromebaude2) and check that we can now see workspace `terraform-aws-hashicat`
 But we cannot `Queue Plan`
 
-### 2.6 Cost Estimation
-
-Terraform Cloud provides cost estimates for many resources found in your Terraform configuration. For each resource an hourly and monthly cost is shown, along with the monthly delta. The total cost and delta of all estimable resources is also shown.
-
-To enable Cost Estimation for your organization, check the box in your organization's settings.
-
-Disable `auto-apply` and add a new variable
-
-Add the following variable
-```
-instance_type: m5.large
-```
-Discard Run "too expensive"
-
 
 ### 2.7 Private Module Registry
 
@@ -203,15 +206,9 @@ git commit -m "demo using modules"
 
 #### cleanup 
 
-```
-./clean.sh
-cd ..
-rm -rf terraform-aws-hashicat
-```
-
+- destroy the provisioning in TFE
 - delete github branch DevTestBranch
 - delete terraform-aws-hashicat workspace
 - deactivate cost estimation on all workspaces
 - remove support team workspace visibility
-- remove AWS ECS Fargate Module from the private registry
 
