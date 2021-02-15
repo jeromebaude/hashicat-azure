@@ -11,7 +11,7 @@ cat << EOM > /var/www/html/index.html
   <!-- BEGIN -->
   <center><img src="http://${PLACEHOLDER}/${WIDTH}/${HEIGHT}"></img></center>
   <center><h2>Meow World!</h2></center>
-  Welcome to ${PREFIX}'s app. Hello L'OREAL, how are you today the 6th of May?. Bonjour à tous . 
+  Welcome to ${PREFIX}'s app. Energisme
   <!-- END -->
   
   </div>
